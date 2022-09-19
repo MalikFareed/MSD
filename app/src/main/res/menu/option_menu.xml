@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/opt_rate"
+        android:icon="@drawable/ic_baseline_rate_review_24"
+        android:title="menu"/>
+
+</menu>
