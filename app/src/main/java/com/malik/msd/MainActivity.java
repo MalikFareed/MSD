@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //enabling BACK button
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("MSDs"); //this line priority is high than this "toolbar.setTitle("MSDs");"
+            getSupportActionBar().setTitle("MSD"); //this line priority is high than this "toolbar.setTitle("MSDs");"
         }
 
     }
