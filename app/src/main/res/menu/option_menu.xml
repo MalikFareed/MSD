@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item android:id="@+id/opt_rate"
         android:icon="@drawable/ic_baseline_rate_review_24"
-        android:title="menu"/>
+        android:title="Rate"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/opt_viewRecords"
+        android:icon="@drawable/ic_baseline_table_chart_24"
+        android:title="View Records"
+        app:showAsAction="always"/>
 
 </menu>
