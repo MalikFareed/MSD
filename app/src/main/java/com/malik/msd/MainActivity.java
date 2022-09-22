@@ -82,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.container, _fragment, _tag);
         ft.addToBackStack(_tag);
         ft.commit();
-        //Log.d("Fragment", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
-        //Log.d("Fragment ","<<<<<<<<<<<<<<<<<<<<<<<<<<<<  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
-
-
 
     }
 
