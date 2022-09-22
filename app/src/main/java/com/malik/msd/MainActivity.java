@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,10 +49,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //stores Id of the clicked item(BACK button is also a Menu item)
         int itemId = item.getItemId();
+        FragmentManager fm = getSupportFragmentManager();
 
         if (itemId == R.id.opt_rate){
-            //Toast.makeText(this, "Rate Clicked", Toast.LENGTH_SHORT).show();
-            LoadFragemnt(new RateFragment());
+            String tag = "RateFragment";
+            if (fm.findFragmentByTag(tag) != null)
+                fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                Log.d("Fragment", "Rate fragment already exist!");
+
+            LoadFragment(new RateFragment(), tag);
         }
         else if (itemId == android.R.id.home){
             //"android.R.id.home" we get android default items Ids like this.
@@ -59,17 +65,35 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
 
         }else {
-            //Toast.makeText(this, "View records Clicked", Toast.LENGTH_SHORT).show();
-            LoadFragemnt(new RecodsFragment());
+            String tag = "RecordsFragment";
+            if (fm.findFragmentByTag(tag) != null)
+                fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                Log.d("Fragment", "Record fragment already exist!");
+
+            LoadFragment(new RecodsFragment(), tag);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void LoadFragemnt(Fragment _fragment){
+    public void LoadFragment(Fragment _fragment, String _tag){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.container, _fragment);
+        ft.replace(R.id.container, _fragment, _tag);
+        ft.addToBackStack(_tag);
         ft.commit();
+        Log.d("Fragment", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
+        Log.d("Fragment ","<<<<<<<<<<<<<<<<<<<<<<<<<<<<  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("Fragments List", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
+        super.onBackPressed();
     }
 }
