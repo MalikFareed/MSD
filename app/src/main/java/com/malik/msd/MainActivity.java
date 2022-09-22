@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("MSD"); //this line priority is high than this "toolbar.setTitle("MSDs");"
 
         }
-
     }
 
     @Override
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             String tag = "RateFragment";
             if (fm.findFragmentByTag(tag) != null)
                 fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                Log.d("Fragment", "Rate fragment already exist!");
+                //Log.d("Fragment", "Rate fragment already exist!");
 
             LoadFragment(new RateFragment(), tag);
         }
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             String tag = "RecordsFragment";
             if (fm.findFragmentByTag(tag) != null)
                 fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                Log.d("Fragment", "Record fragment already exist!");
+                //Log.d("Fragment", "Record fragment already exist!");
 
             LoadFragment(new RecodsFragment(), tag);
         }
@@ -83,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.container, _fragment, _tag);
         ft.addToBackStack(_tag);
         ft.commit();
-        Log.d("Fragment", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
-        Log.d("Fragment ","<<<<<<<<<<<<<<<<<<<<<<<<<<<<  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        //Log.d("Fragment", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
+        //Log.d("Fragment ","<<<<<<<<<<<<<<<<<<<<<<<<<<<<  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
 
 
