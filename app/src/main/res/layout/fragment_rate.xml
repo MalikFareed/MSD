@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RateFragment"
-    >
-    
-    <!-- TODO: Update blank fragment layout -->
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/rbMorning"
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Morning"
-            />
+            android:orientation="horizontal" >
 
-        <RadioButton
-            android:id="@+id/rbEvening"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Evening"/>
+            <RadioButton
+                android:id="@+id/rbMorning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Morning"
+                android:padding="5dp"/>
+
+            <RadioButton
+                android:id="@+id/rbEvening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Evening"
+                android:padding="5dp"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
 
 
-    </RadioGroup>
-
-</FrameLayout>
+</LinearLayout>
