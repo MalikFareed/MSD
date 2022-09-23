@@ -11,11 +11,15 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+
 
 public class RateFragment extends Fragment {
 
     DatePicker dp;
     RadioButton rb;
+
+    MaterialDatePicker materialDatePicker;
 
     public RateFragment() {
         // Required empty public constructor
@@ -40,6 +44,8 @@ public class RateFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_rate, container, false);
 
         dp = rootView.findViewById(R.id.datePicker);
+        dp.setSpinnersShown(true);
+        dp.forceLayout();
         rb = rootView.findViewById(R.id.rbEvening);
 
         String date = String.valueOf(dp.getDayOfMonth())+ "/" + String.valueOf(dp.getMonth() + 1) + "/" + String.valueOf(dp.getYear());
