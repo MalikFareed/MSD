@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +60,21 @@ public class RecodsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_recods, container, false);
+
+        RadioButton rb = rootView.findViewById(R.id.rb);
+        Button btn = rootView.findViewById(R.id.btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rb.isChecked())
+                    rb.setChecked(false);
+                else
+                    rb.setChecked(true);
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recods, container, false);
+        return rootView;
     }
 }

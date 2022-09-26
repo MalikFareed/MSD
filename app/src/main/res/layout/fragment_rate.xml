@@ -152,11 +152,10 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnInsert"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Insert"
-        android:layout_margin="40dp"
-        />
+        android:text="Save"
+        android:layout_margin="40dp" />
 
 </LinearLayout>
