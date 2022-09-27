@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,8 +57,7 @@ public class RateFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)    {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_rate, container, false);
 
@@ -74,23 +74,31 @@ public class RateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    ResetViews();
+                    SaveRecord();
+
                 } catch (Exception e) {
                     Toast.makeText(getActivity(),"!!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        String date = String.valueOf(dp.getDayOfMonth())+ "/" + String.valueOf(dp.getMonth() + 1) + "/" + String.valueOf(dp.getYear());
-        Log.d("Day", date);
+
 
 
         return rootView;
     }
 
-    private void SaveRecord() throws ParseException {
+    private String GetFormattedDate(String _date) throws ParseException {
+        String stringDate = String.valueOf(_date);
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+        String pattern = "dd/MM/yyyy";
+        DateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(date);
 
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse("31/12/22");//SimpleDateFormat("dd/MM/yyyy").parse(dp.getDayOfMonth() +"/"+ dp.getMonth()+1 +"/"+ dp.getYear());
+    }
+
+    private void SaveRecord() throws ParseException {
+        String date = GetFormattedDate(String.valueOf(dp.getDayOfMonth())+ "/" + String.valueOf(dp.getMonth() + 1) + "/" + String.valueOf(dp.getYear()));
         String  time = "Morning";
         if (rbEvening.isChecked())
             time = "Evening";
@@ -106,7 +114,9 @@ public class RateFragment extends Fragment {
                 ));
                 ShowAlertDialog();
                 ResetViews();
-            }else {
+            }
+            else
+            {
                 Toast.makeText(this.getActivity(), "Pls Enter values.", Toast.LENGTH_SHORT).show();
             }
 
@@ -131,8 +141,7 @@ public class RateFragment extends Fragment {
 
     }
 
-    private double GetAmount(int _rate,int _mann,int _sair)
-    {
+    private double GetAmount(int _rate,int _mann,int _sair){
         double kgAmount = _rate/40;
         int totalKg = (_mann*40) + _sair;
 
@@ -140,19 +149,23 @@ public class RateFragment extends Fragment {
 
     }
 
-    private void ShowAlertDialog()
-    {
+    private void ShowAlertDialog(){
         if (records != null) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
             alert.setTitle("Data");
-            alert.setMessage(records.get(0).getTime());
+
+            String message = "Date: "+records.get(0).getDate()+"\n Time: "+records.get(0).getTime();
+            alert.setMessage(message);
+
             alert.setNeutralButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Toast.makeText(getActivity(), "Data Saved", Toast.LENGTH_SHORT).show();
                 }
             });
+
             alert.create().show();
+
             ResetViews();
         }
         else {
