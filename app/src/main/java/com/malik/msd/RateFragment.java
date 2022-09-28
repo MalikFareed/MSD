@@ -72,12 +72,12 @@ public class RateFragment extends Fragment {
         tvAmount = rootView.findViewById(R.id.tvAmount);
         btnSave = rootView.findViewById(R.id.btnSave);
 
-        init();
+        Main();
 
         return rootView;
     }
 
-    private void init(){
+    private void Main(){
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,14 @@ public class RateFragment extends Fragment {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String rate = etRate.getText().toString();
+                String mann = etMann.getText().toString();
+                String sair = etSair.getText().toString();
+                if (rate.matches("") || mann.matches("") || sair.matches("") ){
+                    tvAmount.setText("Amount: 0.0");
+                }
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -104,7 +111,7 @@ public class RateFragment extends Fragment {
                 if (strRate == null || strRate.equals("")){
                     strRate = "0";
                 }
-                double rate = Integer.parseInt(strRate);
+                double rate = Double.parseDouble(strRate);
 
                 try {
                     double amount = GetAmount(rate, Double.parseDouble(etMann.getText().toString()), Double.parseDouble(etSair.getText().toString()));
@@ -121,7 +128,14 @@ public class RateFragment extends Fragment {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String rate = etRate.getText().toString();
+                String mann = etMann.getText().toString();
+                String sair = etSair.getText().toString();
+                if (rate.matches("") || mann.matches("") || sair.matches("") ){
+                    tvAmount.setText("Amount: 0.0");
+                }
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -130,7 +144,7 @@ public class RateFragment extends Fragment {
                 if (strMann == null || strMann.equals("")){
                     strMann = "0";
                 }
-                double mann = Integer.parseInt(strMann);
+                double mann = Double.parseDouble(strMann);
 
                 try {
                     double amount = GetAmount(Double.parseDouble(etRate.getText().toString()),mann, Double.parseDouble(etSair.getText().toString()));
@@ -146,7 +160,14 @@ public class RateFragment extends Fragment {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String rate = etRate.getText().toString();
+                String mann = etMann.getText().toString();
+                String sair = etSair.getText().toString();
+                if (rate.matches("") || mann.matches("") || sair.matches("") ){
+                    tvAmount.setText("Amount: 0.0");
+                }
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -155,7 +176,7 @@ public class RateFragment extends Fragment {
                 if (strSair == null || strSair.equals("")){
                     strSair = "0";
                 }
-                double sair = Integer.parseInt(strSair);
+                double sair = Double.parseDouble(strSair);
 
                 try {
                     double amount = GetAmount(Double.parseDouble(etRate.getText().toString()),Double.parseDouble(etMann.getText().toString()), sair);
@@ -221,7 +242,6 @@ public class RateFragment extends Fragment {
 
     private double GetAmount(double _rate,double _mann,double _sair){
         double kgAmount = _rate/40;
-        Log.d("KgAmt: ",String.valueOf(kgAmount));
         double totalKg = (_mann*40) + _sair;
 
         return kgAmount * totalKg;
