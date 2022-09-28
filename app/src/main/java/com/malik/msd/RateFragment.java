@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +72,13 @@ public class RateFragment extends Fragment {
         tvAmount = rootView.findViewById(R.id.tvAmount);
         btnSave = rootView.findViewById(R.id.btnSave);
 
+        init();
+
+        return rootView;
+    }
+
+    private void init(){
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,10 +91,80 @@ public class RateFragment extends Fragment {
             }
         });
 
+        etRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String strRate = editable.toString();
+                if (strRate == null || strRate.equals("")){
+                    strRate = "0";
+                }
+                double rate = Integer.parseInt(strRate);
+
+                try {
+                    double amount = GetAmount(rate, Double.parseDouble(etMann.getText().toString()), Double.parseDouble(etSair.getText().toString()));
+                    tvAmount.setText("Amount: " + amount);
+                }
+                catch (Exception e){ return; }
 
 
+            }
+        });
 
-        return rootView;
+        etMann.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String strMann = editable.toString();
+
+                if (strMann == null || strMann.equals("")){
+                    strMann = "0";
+                }
+                double mann = Integer.parseInt(strMann);
+
+                try {
+                    double amount = GetAmount(Double.parseDouble(etRate.getText().toString()),mann, Double.parseDouble(etSair.getText().toString()));
+                    tvAmount.setText("Amount: " + amount);
+                }
+                catch (Exception e){ return; }
+            }
+
+        });
+
+        etSair.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String strSair = editable.toString();
+
+                if (strSair == null || strSair.equals("")){
+                    strSair = "0";
+                }
+                double sair = Integer.parseInt(strSair);
+
+                try {
+                    double amount = GetAmount(Double.parseDouble(etRate.getText().toString()),Double.parseDouble(etMann.getText().toString()), sair);
+                    tvAmount.setText("Amount: " + amount);
+                }
+                catch (Exception e){ return; }
+            }
+
+        });
     }
 
     private String GetFormattedDate(String _date) throws ParseException {
@@ -108,12 +187,11 @@ public class RateFragment extends Fragment {
                 records.add(new Record(
                         date,
                         time,
-                        Integer.parseInt(etRate.getText().toString()),
-                        Integer.parseInt(etMann.getText().toString()),
-                        Integer.parseInt(etSair.getText().toString())
+                        Double.parseDouble(etRate.getText().toString()),
+                        Double.parseDouble(etMann.getText().toString()),
+                        Double.parseDouble(etSair.getText().toString())
                 ));
                 ShowAlertDialog();
-                ResetViews();
             }
             else
             {
@@ -141,9 +219,10 @@ public class RateFragment extends Fragment {
 
     }
 
-    private double GetAmount(int _rate,int _mann,int _sair){
+    private double GetAmount(double _rate,double _mann,double _sair){
         double kgAmount = _rate/40;
-        int totalKg = (_mann*40) + _sair;
+        Log.d("KgAmt: ",String.valueOf(kgAmount));
+        double totalKg = (_mann*40) + _sair;
 
         return kgAmount * totalKg;
 
@@ -161,12 +240,11 @@ public class RateFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Toast.makeText(getActivity(), "Data Saved", Toast.LENGTH_SHORT).show();
+                    ResetViews();
                 }
             });
 
             alert.create().show();
-
-            ResetViews();
         }
         else {
             Toast.makeText(this.getContext(), "No data to save!", Toast.LENGTH_SHORT).show();

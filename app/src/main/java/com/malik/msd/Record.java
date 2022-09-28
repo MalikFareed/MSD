@@ -5,11 +5,11 @@ import java.util.Date;
 public class Record {
     private String date;
     private String time;
-    private int rate;
-    private int mann;
-    private int sair;
+    private double rate;
+    private double mann;
+    private double sair;
 
-    public Record(String  _date, String _time, int _rate, int _mann, int _sair)
+    public Record(String  _date, String _time, double _rate, double _mann, double _sair)
     {
         this.date = _date;
         this.time = _time;
