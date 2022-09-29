@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:nestedScrollingEnabled="true"
     tools:context=".RateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:datePickerMode="calendar"
-            android:calendarViewShown="false"
-            />
+            android:nestedScrollingEnabled="true" />
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rbMorning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Morning"
                     android:padding="5dp"
-                    />
+                    android:text="Morning" />
 
                 <RadioButton
                     android:id="@+id/rbEvening"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Evening"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:text="Evening" />
 
             </RadioGroup>
         </LinearLayout>
@@ -58,13 +57,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,17 +73,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rate: "
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/etRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:ems="5"
-                    android:textSize="25sp"
+                    android:inputType="number"
+                    android:maxLength="9"
                     android:nextFocusDown="@id/etMann"
-                    android:maxLength="9"/>
+                    android:textSize="25sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -94,66 +93,72 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mann: "
                     android:hint="0"
-                    android:textSize="20sp"/>
+                    android:text="Mann: "
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/etMann"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"
                     android:ems="3"
+                    android:inputType="number"
+                    android:maxLength="9"
                     android:nextFocusDown="@id/etSair"
-                    android:maxLength="9"/>
+                    android:textSize="25sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sair: "
                     android:hint="0"
-                    android:textSize="20sp"/>
+                    android:text="Sair: "
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/etSair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textSize="25sp"
                     android:ems="2"
-                    android:maxLength="9"/>
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:textSize="25sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:paddingTop="65dp">
+                android:paddingTop="25dp">
 
                 <TextView
                     android:id="@+id/tvAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Amount: 0.0"
-                    android:textSize="30sp"/>
+                    android:textSize="30sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_margin="40dp" />
+            android:text="Add" />
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:enabled="false"/>
     </LinearLayout>
 
 
