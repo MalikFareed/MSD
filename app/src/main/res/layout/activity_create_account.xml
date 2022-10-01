@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccountActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <ProgressBar
+        android:id="@+id/createAcctProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/createAcctLoginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etUsernameAcct"
+            android:hint="@string/usernameHint"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:paddingBottom="16dp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/etEmailAcct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/emailHint"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPasswordAcct"
+            android:hint="@string/passwordHint"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCreateAccount"
+            android:text="@string/createAccount"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/accent"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

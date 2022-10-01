@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
 
-        //giving toolbar's reference to method
+        //giving toolbar's reference to default toolbar setter method
         setSupportActionBar(toolbar);
 
         //enabling BACK button
