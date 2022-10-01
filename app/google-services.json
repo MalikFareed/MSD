@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "691520663112",
+    "project_id": "msd-records",
+    "storage_bucket": "msd-records.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691520663112:android:8fc8d9358798066d3a727d",
+        "android_client_info": {
+          "package_name": "com.malik.msd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691520663112-orb37n2hs35ccmceaao6nk7r4jt8nd8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZkijZa2nb3dWf1C-fxTZ5ee7fwPEVnUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691520663112-orb37n2hs35ccmceaao6nk7r4jt8nd8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
