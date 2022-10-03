@@ -156,7 +156,7 @@ public class RateFragment extends Fragment {
 
                 try {
                     double amount = GetAmount(rate, Double.parseDouble(etMann.getText().toString()), Double.parseDouble(etSair.getText().toString()));
-                    tvAmount.setText("Amount: " + amount);
+                    tvAmount.setText("Amount: %.2f" + amount);
                 } catch (Exception e) {
                     return;
                 }
@@ -191,7 +191,7 @@ public class RateFragment extends Fragment {
 
                 try {
                     double amount = GetAmount(Double.parseDouble(etRate.getText().toString()), mann, Double.parseDouble(etSair.getText().toString()));
-                    tvAmount.setText("Amount: " + amount);
+                    tvAmount.setText("Amount: %.2f" + amount);
                 } catch (Exception e) {
                     return;
                 }
@@ -225,7 +225,7 @@ public class RateFragment extends Fragment {
 
                 try {
                     double amount = GetAmount(Double.parseDouble(etRate.getText().toString()), Double.parseDouble(etMann.getText().toString()), sair);
-                    tvAmount.setText("Amount: " + amount);
+                    tvAmount.setText("Amount: %.2f" + amount);
                 } catch (Exception e) {
                     return;
                 }
