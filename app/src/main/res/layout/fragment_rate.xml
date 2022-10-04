@@ -7,10 +7,11 @@
     android:nestedScrollingEnabled="true"
     tools:context=".RateFragment">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="vertical">
 
         <DatePicker
@@ -19,6 +20,12 @@
             android:layout_height="wrap_content"
             android:datePickerMode="calendar"
             android:nestedScrollingEnabled="true" />
+
+        <ProgressBar
+            android:id="@+id/fragRateProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
 
         <View
@@ -133,22 +140,46 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp" >
+                android:padding="3dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardElevation="6dp"
+                    android:layout_gravity="center_horizontal"
                     app:cardCornerRadius="6dp"
-                    app:cardUseCompatPadding="true" >
+                    app:cardElevation="6dp"
+                    app:cardUseCompatPadding="true"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Amount: "
+                        android:textSize="30sp" />
+                </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:cardUseCompatPadding="true"
+                    >
 
                     <TextView
                         android:id="@+id/tvAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Amount: 0.0"
-                        android:textSize="30sp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:hint="0.0"
+                        android:textSize="30sp"  />
 
                 </androidx.cardview.widget.CardView>
 
@@ -167,8 +198,8 @@
             android:id="@+id/btnUpload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="Upload" />
     </LinearLayout>
 
 

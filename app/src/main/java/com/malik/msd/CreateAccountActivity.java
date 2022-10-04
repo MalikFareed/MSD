@@ -1,8 +1,5 @@
 package com.malik.msd;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -103,65 +103,56 @@ public class CreateAccountActivity extends AppCompatActivity {
             createAcctProgress.setVisibility(View.VISIBLE);
 
             firebaseAuth.createUserWithEmailAndPassword(_email, _password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                //new user created, take user to next activity
-                                currentUser = firebaseAuth.getCurrentUser();
-                                assert currentUser != null;
-                                String currentUserId = currentUser.getUid();
+                        public void onSuccess(AuthResult authResult) {
+                            //new user created, take user to next activity
+                            currentUser = firebaseAuth.getCurrentUser();
+                            assert currentUser != null;
+                            String currentUserId = currentUser.getUid();
 
-                                //create User Map to add User in firestore collection(Table)
-                                Map<String, String> userObj = new HashMap<>();
-                                userObj.put("userId", currentUserId);
-                                userObj.put("username", _username);
+                            //create User Map to add User in firestore collection(Table)
+                            Map<String, String> userObj = new HashMap<>();
+                            userObj.put("userId", currentUserId);
+                            userObj.put("username", _username);
 
-                                //saving to firestore database
-                                collectionReference.add(userObj)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                        if (Objects.requireNonNull(task).getResult().exists()) {
-                                                            createAcctProgress.setVisibility(View.INVISIBLE);
+                            //saving to firestore database
+                            collectionReference.add(userObj)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (Objects.requireNonNull(task).getResult().exists()) {
+                                                        createAcctProgress.setVisibility(View.INVISIBLE);
 
-                                                            String name = task.getResult().getString("username");
+                                                        String name = task.getResult().getString("username");
 
-                                                            MSDApi msdApi = MSDApi.getInstance();
-                                                            msdApi.setUserId(currentUserId);
-                                                            msdApi.setUsername(name);
+                                                        MSDApi msdApi = MSDApi.getInstance();
+                                                        msdApi.setUserId(currentUserId);
+                                                        msdApi.setUsername(name);
 
-                                                            Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+                                                        Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+                                                        startActivity(intent);
 
-//                                                            intent.putExtra("username", name);
-//                                                            intent.putExtra("userId", currentUserId);
-                                                            startActivity(intent);
-
-                                                        } else {
-                                                            createAcctProgress.setVisibility(View.INVISIBLE);
-
-                                                        }
+                                                    } else {
+                                                        createAcctProgress.setVisibility(View.INVISIBLE);
 
                                                     }
-                                                });
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d(TAG, "onFailure: New user created, but failed to add in USERS collection");
+                                                }
+                                            });
 
-                                            }
-                                        });
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "onFailure: New user created, but failed to add in USERS collection");
 
-
-                            } else {
-                                //something went wrong
-                            }
+                                        }
+                                    });
 
                         }
                     })
@@ -170,6 +161,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             Log.d(TAG, "onFailure: Failed to create new user");
                             Toast.makeText(CreateAccountActivity.this, "Failed to create new user", Toast.LENGTH_SHORT).show();
+                            createAcctProgress.setVisibility(View.INVISIBLE);
                         }
                     });
         } else {
