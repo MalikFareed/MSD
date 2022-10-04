@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +29,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import utils.MSDApi;
+
 public class CreateAccountActivity extends AppCompatActivity {
 
+    private static final String TAG = "CreateAccountActivity";
     private EditText etUsernameAcct;
     private EditText etEmailAcct;
     private EditText etPasswordAcct;
@@ -94,7 +98,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void createUserEmailAccount(String _username, String _email, String _password) {
-        if (!TextUtils.isEmpty(_username) && !TextUtils.isEmpty(_email)  && !TextUtils.isEmpty(_password) ) {
+
+        if (!TextUtils.isEmpty(_username) && !TextUtils.isEmpty(_email) && !TextUtils.isEmpty(_password)) {
             createAcctProgress.setVisibility(View.VISIBLE);
 
             firebaseAuth.createUserWithEmailAndPassword(_email, _password)
@@ -120,18 +125,22 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                        if (Objects.requireNonNull(task).getResult().exists()){
+                                                        if (Objects.requireNonNull(task).getResult().exists()) {
                                                             createAcctProgress.setVisibility(View.INVISIBLE);
 
                                                             String name = task.getResult().getString("username");
 
-                                                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                                                            MSDApi msdApi = MSDApi.getInstance();
+                                                            msdApi.setUserId(currentUserId);
+                                                            msdApi.setUsername(name);
 
-                                                            intent.putExtra("username", name);
-                                                            intent.putExtra("userId", currentUserId);
+                                                            Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+
+//                                                            intent.putExtra("username", name);
+//                                                            intent.putExtra("userId", currentUserId);
                                                             startActivity(intent);
 
-                                                        }else {
+                                                        } else {
                                                             createAcctProgress.setVisibility(View.INVISIBLE);
 
                                                         }
@@ -144,6 +153,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG, "onFailure: New user created, but failed to add in USERS collection");
 
                                             }
                                         });
@@ -158,10 +168,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            Log.d(TAG, "onFailure: Failed to create new user");
+                            Toast.makeText(CreateAccountActivity.this, "Failed to create new user", Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else {
+        } else {
             Toast.makeText(this, "Empty fields found!", Toast.LENGTH_SHORT).show();
         }
 

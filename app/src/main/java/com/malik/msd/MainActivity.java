@@ -14,9 +14,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+
+    private String currentUserId;
+    private String currentUserName;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseUser user;
+
+    //connection to Firebase
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference collectionReference = db.collection("Records");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +51,21 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("MSD"); //this line priority is high than this "toolbar.setTitle("MSDs");"
 
         }
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = firebaseAuth.getCurrentUser();
+                if (user != null){
+
+                }else {
+
+                }
+
+            }
+        };
     }
 
     @Override
@@ -86,8 +118,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Log.d("Fragments List", "onOptionsItemSelected: "+getSupportFragmentManager().getBackStackEntryCount());
-        super.onBackPressed();
+    protected void onStart() {
+        super.onStart();
+        user = firebaseAuth.getCurrentUser();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (firebaseAuth != null){
+            firebaseAuth.removeAuthStateListener(authStateListener);
+        }
     }
 }
