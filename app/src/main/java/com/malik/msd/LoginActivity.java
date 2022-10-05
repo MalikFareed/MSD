@@ -1,17 +1,17 @@
 package com.malik.msd;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btnLogin, btnCreateAcctLogin;
     private EditText etEmail, etPassword;
+    private ProgressBar loginProgress;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Users");
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         btnCreateAcctLogin = findViewById(R.id.btnCreateAccountLogin);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        loginProgress = findViewById(R.id.loginProgress);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser(etEmail.getText().toString().trim(),etPassword.getText().toString().trim());
+                loginUser(etEmail.getText().toString().trim(), etPassword.getText().toString().trim());
 
             }
         });
@@ -71,48 +73,50 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void loginUser(String _email, String _password){
-        if ( !TextUtils.isEmpty(_email) && !TextUtils.isEmpty(_password) ){
-            firebaseAuth.signInWithEmailAndPassword(_email,_password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void loginUser(String _email, String _password) {
+
+        loginProgress.setVisibility(View.VISIBLE);
+
+        if (!TextUtils.isEmpty(_email) && !TextUtils.isEmpty(_password)) {
+            firebaseAuth.signInWithEmailAndPassword(_email, _password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    currentUser = firebaseAuth.getCurrentUser();
+                    String currentUserId = currentUser.getUid();
+
+                    collectionReference.whereEqualTo("userId", currentUserId).addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            currentUser = firebaseAuth.getCurrentUser();
-                            String currentUserId = currentUser.getUid();
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if (error != null) return;
 
-                            collectionReference.whereEqualTo("userId", currentUserId)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            if (error != null)
-                                                return;
+                            assert value != null;
+                            if (!value.isEmpty()) {
+                                loginProgress.setVisibility(View.INVISIBLE);
+                                for (QueryDocumentSnapshot snapshot : value) {
+                                    MSDApi msdApi = MSDApi.getInstance();
+                                    msdApi.setUsername(snapshot.getString("username"));
+                                    msdApi.setUserId(snapshot.getString("userId"));
 
-                                            assert value != null;
-                                            if (!value.isEmpty()){
-                                                for (QueryDocumentSnapshot snapshot : value) {
-                                                    MSDApi msdApi = MSDApi.getInstance();
-                                                    msdApi.setUsername(snapshot.getString("username"));
-                                                    msdApi.setUserId(snapshot.getString("userId"));
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
-                                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                                    
-                                                }
+                                }
 
 
-                                            }
-                                        }
-                                    });
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
+                            }
                         }
                     });
 
-        }else {
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    loginProgress.setVisibility(View.INVISIBLE);
+
+                }
+            });
+
+        } else {
+            loginProgress.setVisibility(View.INVISIBLE);
             Toast.makeText(LoginActivity.this, "Please enter email and password!", Toast.LENGTH_SHORT).show();
         }
     }

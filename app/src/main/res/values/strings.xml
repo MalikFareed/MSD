@@ -8,4 +8,5 @@
     <string name="orText">Or</string>
     <string name="createAccount">Create Account</string>
     <string name="usernameHint">Username</string>
+    <string name="menuSignout">Signout</string>
 </resources>

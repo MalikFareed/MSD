@@ -91,7 +91,6 @@ public class RateFragment extends Fragment implements View.OnClickListener {
                 } else {
 
                 }
-
             }
         };
 
