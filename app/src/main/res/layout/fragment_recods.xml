@@ -21,9 +21,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/tvNorecords"
-        android:layout_width="181dp"
-        android:layout_height="36dp"
+        android:id="@+id/tvNoRecords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="italic"
         android:text="@string/noRecordsHint"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
