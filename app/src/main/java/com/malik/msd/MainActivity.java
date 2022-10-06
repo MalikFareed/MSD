@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             //Log.d("Fragment", "Record fragment already exist!");
 
-            LoadFragment(new RecodsFragment(), tag);
+            LoadFragment(new RecordsFragment(), tag);
         }
 
 
