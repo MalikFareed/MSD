@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#FFABF15A</color>
-    <color name="accent">#EF685F</color>
+<!--    <color name="accent">#EF685F</color>-->
+    <color name="accent">#FFde03</color>
+    <color name="startGColor">#9EEA45</color>
+    <color name="endGColor">#93FC80</color>
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
     android:nestedScrollingEnabled="true"
     tools:context=".RateFragment">
 
@@ -18,8 +19,7 @@
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:datePickerMode="calendar"
-            android:nestedScrollingEnabled="true" />
+            android:datePickerMode="calendar" />
 
         <ProgressBar
             android:id="@+id/fragRateProgress"
@@ -100,7 +100,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="0"
                     android:text="Mann: "
                     android:textSize="20sp" />
 
@@ -117,7 +116,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="0"
                     android:text="Sair: "
                     android:textSize="20sp" />
 
@@ -140,9 +138,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:padding="3dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
@@ -160,26 +158,20 @@
                         android:textSize="30sp" />
                 </androidx.cardview.widget.CardView>
 
-
-
-
-
-
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="6dp"
-                    app:cardUseCompatPadding="true"
-                    >
+                    app:cardUseCompatPadding="true">
 
                     <TextView
                         android:id="@+id/tvAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="0.0"
-                        android:textSize="30sp"  />
+                        android:textSize="30sp" />
 
                 </androidx.cardview.widget.CardView>
 

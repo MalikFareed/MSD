@@ -7,7 +7,8 @@
     tools:context=".CreateAccountActivity"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/gradient_bg">
 
     <ProgressBar
         android:id="@+id/createAcctProgress"

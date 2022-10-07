@@ -13,9 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,6 +54,43 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                currentUser = firebaseAuth.getCurrentUser();
+
+                if (currentUser != null) {
+                    currentUser = firebaseAuth.getCurrentUser();
+                    String currentUserId = currentUser.getUid();
+
+                    collectionReference
+                            .whereEqualTo("userId", currentUserId)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                    if (e != null)
+                                        return;
+
+                                    if(!queryDocumentSnapshots.isEmpty()){
+                                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
+                                            MSDApi msdApi = MSDApi.getInstance();
+                                            msdApi.setUserId(snapshot.getString("userId"));
+                                            msdApi.setUsername(snapshot.getString("username"));
+
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            finish();
+                                        }
+                                    }
+                                }
+                            });
+
+                } else {
+                    //do nothing to stay in same activity.
+                }
+
+            }
+        };
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,46 +114,65 @@ public class LoginActivity extends AppCompatActivity {
         loginProgress.setVisibility(View.VISIBLE);
 
         if (!TextUtils.isEmpty(_email) && !TextUtils.isEmpty(_password)) {
-            firebaseAuth.signInWithEmailAndPassword(_email, _password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    currentUser = firebaseAuth.getCurrentUser();
-                    String currentUserId = currentUser.getUid();
-
-                    collectionReference.whereEqualTo("userId", currentUserId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            firebaseAuth.signInWithEmailAndPassword(_email, _password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
-                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                            if (error != null) return;
+                        public void onSuccess(AuthResult authResult) {
+                            currentUser = firebaseAuth.getCurrentUser();
+                            String currentUserId = currentUser.getUid();
 
-                            assert value != null;
-                            if (!value.isEmpty()) {
-                                loginProgress.setVisibility(View.INVISIBLE);
-                                for (QueryDocumentSnapshot snapshot : value) {
-                                    MSDApi msdApi = MSDApi.getInstance();
-                                    msdApi.setUsername(snapshot.getString("username"));
-                                    msdApi.setUserId(snapshot.getString("userId"));
+                            collectionReference.whereEqualTo("userId", currentUserId)
+                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                            if (error != null) return;
 
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            assert value != null;
+                                            if (!value.isEmpty()) {
+                                                loginProgress.setVisibility(View.INVISIBLE);
+                                                for (QueryDocumentSnapshot snapshot : value) {
+                                                    MSDApi msdApi = MSDApi.getInstance();
+                                                    msdApi.setUsername(snapshot.getString("username"));
+                                                    msdApi.setUserId(snapshot.getString("userId"));
 
-                                }
+                                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                                    finish();
 
+                                                }
+                                            }
+                                        }
+                                    });
 
-                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            loginProgress.setVisibility(View.INVISIBLE);
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    loginProgress.setVisibility(View.INVISIBLE);
-
-                }
-            });
 
         } else {
             loginProgress.setVisibility(View.INVISIBLE);
             Toast.makeText(LoginActivity.this, "Please enter email and password!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = firebaseAuth.getCurrentUser();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (firebaseAuth != null){
+            firebaseAuth.removeAuthStateListener(authStateListener);
+        }
+    }
+
 }

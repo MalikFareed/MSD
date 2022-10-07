@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +54,6 @@ public class RecordsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         user = firebaseAuth.getCurrentUser();
 
         entryList = new ArrayList<>();
@@ -80,7 +80,8 @@ public class RecordsFragment extends Fragment {
 
         collectionReference.whereEqualTo("userId", MSDApi.getInstance()
                 .getUserId())
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()){
@@ -101,7 +102,7 @@ public class RecordsFragment extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
