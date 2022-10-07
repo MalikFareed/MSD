@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                                             msdApi.setUserId(snapshot.getString("userId"));
                                             msdApi.setUsername(snapshot.getString("username"));
 
-                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                            finish();
+//                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                            finish();
                                         }
                                     }
                                 }
@@ -164,6 +164,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         currentUser = firebaseAuth.getCurrentUser();
         firebaseAuth.addAuthStateListener(authStateListener);
+
+        if (currentUser != null){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     @Override
