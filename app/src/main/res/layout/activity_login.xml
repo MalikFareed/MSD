@@ -13,14 +13,21 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:paddingBottom="200dp"
-            android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"/>
+            android:text="@string/app_name_full"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loginSubtitle"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"/>
 
 
     </LinearLayout>

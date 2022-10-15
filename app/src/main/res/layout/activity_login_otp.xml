@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".loginOTP"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
+    android:background="@drawable/gradient_bg">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingVertical="55dp">
+
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:src="@drawable/ic_launcher_adaptive_fore"/>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loginOTPProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/emailLoginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etUsernameLoginOTP"
+            android:hint="@string/usernameHint"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPhoneNumberLoginOTP"
+            android:hint="@string/phoneNumber"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            android:inputType="phone"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNextLoginOTP"
+            android:text="@string/next"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/accent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

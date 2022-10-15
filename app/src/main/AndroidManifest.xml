@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="utils.MSDApi"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,10 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyThemeNoActionBar.MSD"
-        tools:targetApi="31"
-
-        android:name="utils.MSDApi"
-        >
+        tools:targetApi="31">
+        <activity
+            android:name=".ReceiveOTP"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".CreateAccountActivity"
             android:exported="false" />
@@ -24,7 +36,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginOTP"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

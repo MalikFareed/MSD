@@ -10,4 +10,10 @@
     <string name="usernameHint">Username</string>
     <string name="menuSignout">Signout</string>
     <string name="noRecordsHint">"No Record Found "</string>
+    <string name="app_name_full">Malik Siddique Dairy</string>
+    <string name="loginSubtitle">Records Manager</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="next">Next</string>
+    <string name="enterOTP">Enter OTP</string>
+    <string name="verify">Verify</string>
 </resources>

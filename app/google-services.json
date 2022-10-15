@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "691520663112-6r1ep6ghuge5seji26hgon6up09gbm5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malik.msd",
+            "certificate_hash": "5e86fe01eded58faa68387e3d58c792c7977ae7e"
+          }
+        },
+        {
           "client_id": "691520663112-orb37n2hs35ccmceaao6nk7r4jt8nd8d.apps.googleusercontent.com",
           "client_type": 3
         }
