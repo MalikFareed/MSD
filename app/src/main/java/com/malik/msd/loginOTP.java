@@ -100,7 +100,7 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
             final String code = credential.getSmsCode();
             if (code != null){
                 verifyCode(code);
-//                Intent i = new Intent(loginOTP.this, ReceiveOTP.class);
+//               Intent i = new Intent(loginOTP.this, ReceiveOTP.class);
 //                i.putExtra("username", etUsernameLoginOTP.getText().toString().replace(" ", ""));
 //                i.putExtra("phoneNumber", etPhoneNumberLoginOTP.getText().toString().replace(" ", ""));
 //                startActivity(i);
