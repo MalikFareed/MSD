@@ -11,21 +11,21 @@
     android:background="@drawable/gradient_bg">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingVertical="55dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:orientation="vertical"-->
+<!--        android:paddingVertical="55dp">-->
 
 
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="250dp"
-            android:src="@drawable/ic_launcher_adaptive_fore"/>
+<!--        <ImageView-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="250dp"-->
+<!--            android:src="@drawable/ic_launcher_adaptive_fore"/>-->
 
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <ProgressBar
         android:id="@+id/loginOTPProgress"
@@ -66,6 +66,35 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnNextLoginOTP"
             android:text="@string/next"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/accent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etOTPLoginOTP"
+            android:hint="@string/enterOTP"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            android:inputType="phone"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnVerifyLoginOTP"
+            android:text="Verify"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:background="?android:attr/selectableItemBackground"

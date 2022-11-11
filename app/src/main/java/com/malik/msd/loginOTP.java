@@ -11,7 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -21,19 +25,28 @@ import java.util.concurrent.TimeUnit;
 
 public class loginOTP extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText etUsernameLoginOTP, etPhoneNumberLoginOTP;
-    private Button btnNextLoginOTP;
+    private EditText etUsernameLoginOTP, etPhoneNumberLoginOTP, etOTPLoginOTP;
+    private Button btnNextLoginOTP, btnVerifyLoginOTP;
 
     FirebaseAuth mAuth;
+
+    private String verificationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_otp);
 
+        etUsernameLoginOTP = findViewById(R.id.etUsernameLoginOTP);
+        etPhoneNumberLoginOTP = findViewById(R.id.etPhoneNumberLoginOTP);
+        etOTPLoginOTP = findViewById(R.id.etOTPLoginOTP);
+        btnNextLoginOTP = findViewById(R.id.btnNextLoginOTP);
+        btnVerifyLoginOTP = findViewById(R.id.btnVerifyLoginOTP);
+
         mAuth = FirebaseAuth.getInstance();
 
         btnNextLoginOTP.setOnClickListener(this);
+        btnVerifyLoginOTP.setOnClickListener(this);
     }
 
     @Override
@@ -46,7 +59,7 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
                     String phoneNumber = etPhoneNumberLoginOTP.getText().toString().replace(" ", "");
                     String username = etUsernameLoginOTP.getText().toString().replace(" ", "");
 
-                    sendVerificationCode(phoneNumber, username);
+                    sendVerificationCode(phoneNumber);
 
 
 
@@ -55,10 +68,18 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
                 }
 
                 break;
+            case R.id.btnVerifyLoginOTP:
+                if (!TextUtils.isEmpty(etOTPLoginOTP.getText().toString() )) {
+                    Toast.makeText(this, "Wrong OTP Entered", Toast.LENGTH_SHORT).show();
+                } else {
+                    verifyCode(etOTPLoginOTP.getText().toString());
+                }
+
+                break;
         }
     }
 
-    private void sendVerificationCode(String phoneNumber, String username) {
+    private void sendVerificationCode(String phoneNumber) {
 
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -70,16 +91,19 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks()
+    {
 
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
             final String code = credential.getSmsCode();
             if (code != null){
-                Intent i = new Intent(loginOTP.this, ReceiveOTP.class);
-                i.putExtra("username", username);
-                i.putExtra("phoneNumber", phoneNumber);
-                startActivity(i);
+                verifyCode(code);
+//                Intent i = new Intent(loginOTP.this, ReceiveOTP.class);
+//                i.putExtra("username", etUsernameLoginOTP.getText().toString().replace(" ", ""));
+//                i.putExtra("phoneNumber", etPhoneNumberLoginOTP.getText().toString().replace(" ", ""));
+//                startActivity(i);
 
             }
 
@@ -91,16 +115,29 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
         }
 
         @Override
-        public void onCodeSent(@NonNull String verificationId,
+        public void onCodeSent(@NonNull String s,
                                @NonNull PhoneAuthProvider.ForceResendingToken token) {
-            // The SMS verification code has been sent to the provided phone number, we
-            // now need to ask the user to enter the code and then construct a credential
-            // by combining the code with a verification ID.
-            Log.d(TAG, "onCodeSent:" + verificationId);
-
-            // Save verification ID and resending token so we can use them later
-            mVerificationId = verificationId;
-            mResendToken = token;
+            super.onCodeSent(s, token);
+            verificationID = s;
         }
     };
+
+    private void verifyCode(String _code) {
+        //matching code sent by firebase with the user's code
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, _code);
+        signinByCredentials(credential);
+    }
+
+    private void signinByCredentials(PhoneAuthCredential _credential) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithCredential(_credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(loginOTP.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }

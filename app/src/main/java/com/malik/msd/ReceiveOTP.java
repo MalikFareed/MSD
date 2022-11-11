@@ -37,20 +37,20 @@ public class ReceiveOTP extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        initiateOTP(phoneNumber);
+        //initiateOTP(phoneNumber);
 
     }
 
-    private void initiateOTP(String phoneNumber) {
-
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phoneNumber)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallBack)          // OnVerificationStateChangedCallbacks
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
+//    private void initiateOTP(String phoneNumber) {
+//
+//        PhoneAuthOptions options =
+//                PhoneAuthOptions.newBuilder(mAuth)
+//                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+//                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+//                        .setActivity(this)                 // Activity (for callback binding)
+//                        .setCallbacks(mCallBack)          // OnVerificationStateChangedCallbacks
+//                        .build();
+//        PhoneAuthProvider.verifyPhoneNumber(options);
 
 //       PhoneAuthProvider.verifyPhoneNumber(
 //               phoneNumber,
@@ -76,5 +76,5 @@ public class ReceiveOTP extends AppCompatActivity {
 //               }
 //               );
 
-    }
+   // }
 }
