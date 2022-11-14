@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -40,6 +39,7 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
         etUsernameLoginOTP = findViewById(R.id.etUsernameLoginOTP);
         etPhoneNumberLoginOTP = findViewById(R.id.etPhoneNumberLoginOTP);
         etOTPLoginOTP = findViewById(R.id.etOTPLoginOTP);
+
         btnNextLoginOTP = findViewById(R.id.btnNextLoginOTP);
         btnVerifyLoginOTP = findViewById(R.id.btnVerifyLoginOTP);
 
@@ -61,16 +61,14 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
 
                     sendVerificationCode(phoneNumber);
 
-
-
                 } else {
                     Toast.makeText(this, "Username and Phone required", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.btnVerifyLoginOTP:
-                if (!TextUtils.isEmpty(etOTPLoginOTP.getText().toString() )) {
-                    Toast.makeText(this, "Wrong OTP Entered", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(etOTPLoginOTP.getText().toString())) {
+                    Toast.makeText(this, "Enter valid OTP code", Toast.LENGTH_SHORT).show();
                 } else {
                     verifyCode(etOTPLoginOTP.getText().toString());
                 }
@@ -88,30 +86,25 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
                         .setActivity(this)                 // Activity (for callback binding)
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
+
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
 
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks()
-    {
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
             final String code = credential.getSmsCode();
-            if (code != null){
+            if (code != null) {
                 verifyCode(code);
-//               Intent i = new Intent(loginOTP.this, ReceiveOTP.class);
-//                i.putExtra("username", etUsernameLoginOTP.getText().toString().replace(" ", ""));
-//                i.putExtra("phoneNumber", etPhoneNumberLoginOTP.getText().toString().replace(" ", ""));
-//                startActivity(i);
-
             }
 
         }
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(loginOTP.this, "Verification failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(loginOTP.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -119,23 +112,33 @@ public class loginOTP extends AppCompatActivity implements View.OnClickListener 
                                @NonNull PhoneAuthProvider.ForceResendingToken token) {
             super.onCodeSent(s, token);
             verificationID = s;
+
+            etOTPLoginOTP.setEnabled(true);
+            btnVerifyLoginOTP.setEnabled(true);
         }
     };
 
     private void verifyCode(String _code) {
         //matching code sent by firebase with the user's code
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, _code);
-        signinByCredentials(credential);
+        signInByCredentials(credential);
     }
 
-    private void signinByCredentials(PhoneAuthCredential _credential) {
+    private void signInByCredentials(PhoneAuthCredential _credential) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithCredential(_credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(loginOTP.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(loginOTP.this, MainActivity.class);
+                            i.putExtra("username", etUsernameLoginOTP.getText().toString().replace(" ", ""));
+                            i.putExtra("phoneNumber", etPhoneNumberLoginOTP.getText().toString().replace(" ", ""));
+                            startActivity(i);
+
+                            finish();
                         }
                     }
                 });
