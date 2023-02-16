@@ -7,7 +7,7 @@
     <string name="loginText">Login</string>
     <string name="orText">Or</string>
     <string name="createAccount">Create Account</string>
-    <string name="usernameHint">Usernames</string>
+    <string name="usernameHint">Username</string>
     <string name="menuSignout">Signout</string>
     <string name="noRecordsHint">"No Record Found "</string>
     <string name="app_name_full">Malik Siddique Dairy</string>
